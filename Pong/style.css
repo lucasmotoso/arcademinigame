@@ -1,0 +1,122 @@
+header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-decoration: black;
+    border-radius: 50px;
+    justify-content:space-between;
+    justify-items: center;
+    user-select: none;
+}
+
+header img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-decoration: black;
+    justify-content:space-between;
+    justify-items: center;
+    -webkit-filter: drop-shadow(0  20px 20px rgba(30, 207, 83, 0.514));
+    z-index: -10;
+    user-select: none;
+
+}
+
+
+body{
+    margin: 0;
+    background-image: url(img/fundo.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    
+}
+
+button{
+    display: block;
+    margin: auto;
+    width: 200px;
+    color: aliceblue;
+    border: 5px solid rgb(3, 177, 18);
+    background-color: black;
+    border-radius:30px
+    
+}
+
+button:hover{
+    display: block;
+    width: 210px;
+    color: rgb(186, 196, 44);
+    border: 5px solid rgba(3, 177, 18, 0.5);
+    background-color: rgba(0, 0, 0, 0.445);
+    border-radius:30px
+}
+
+
+#dvPainel{
+    display:flex;
+    margin-left: 670px;
+    height: 50px;
+    align-items:center;
+    border-radius:30px;
+}
+
+#dvPainel input{
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.61);
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    border-radius:20px;
+    align-items:center;    
+
+}
+
+#dvPainel label{
+    color: rgba(202, 223, 124, 0.644);
+    font-size: 25px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.itemPainel{
+    margin: 5px;
+}
+
+#dvJogo{
+    margin: auto;
+    width: 960px;
+    height: 500px;
+    border: 10px solid rgb(3, 177, 18);
+    background-color: rgba(0, 0, 0, 0.863);
+    border-radius: 30px;
+
+}
+
+#dvBola{
+    position: absolute;
+    top: 440px;
+    left: 730px;
+    width: 20px;
+    height: 20px;
+    background-color: rgb(54, 190, 0);
+    border-radius:50px;
+}
+
+.barra{
+    position: absolute;
+    width: 20px;
+    height: 140px;
+    background-color:rgb(56, 231, 2);
+    top: 180px;
+}
+
+.esquerda{
+    left:10px
+}
+
+.direita{
+    left: 930px;
+}
