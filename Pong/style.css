@@ -26,7 +26,7 @@ header img{
 
 
 body{
-    margin: 0;
+    margin: auto;
     background-image: url(img/fundo.jpg);
     background-size: cover;
     background-repeat: no-repeat;
@@ -47,6 +47,7 @@ button{
 }
 
 button:hover{
+    margin: auto;
     display: block;
     width: 210px;
     color: rgb(186, 196, 44);
@@ -66,13 +67,13 @@ button:hover{
 
 #dvPainel input{
     display: flex;
+    margin-left: 5px;
     background-color: rgba(0, 0, 0, 0.61);
     color: rgb(255, 255, 255);
     font-size: 20px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     border-radius:20px;
-    align-items:center;    
-
+    align-items:center; 
 }
 
 #dvPainel label{
@@ -86,22 +87,27 @@ button:hover{
 }
 
 #dvJogo{
-    margin: auto;
     width: 960px;
     height: 500px;
     border: 10px solid rgb(3, 177, 18);
     background-color: rgba(0, 0, 0, 0.863);
+    background-image: url(img/table.jpg);
+    background-position:center;
+    background-size: cover;
+    background-repeat: no-repeat;
     border-radius: 30px;
+    
 
 }
 
 #dvBola{
     position: absolute;
-    top: 440px;
-    left: 730px;
+    top:440px;
+    left: 475px;
     width: 20px;
     height: 20px;
-    background-color: rgb(54, 190, 0);
+    border: 5px solid rgb(221, 109, 5);
+    background-color: rgb(255, 238, 0);
     border-radius:50px;
 }
 
@@ -109,14 +115,17 @@ button:hover{
     position: absolute;
     width: 20px;
     height: 140px;
-    background-color:rgb(56, 231, 2);
-    top: 180px;
+    background-color:rgba(243, 0, 0, 0.753);
+    top: 405px;
+    border-radius:20px;
 }
 
 .esquerda{
-    left:10px
+    left: 25px;
+    
 }
 
 .direita{
-    left: 930px;
+    left: 932px;
+    background-color:rgba(4, 0, 243, 0.753);
 }
