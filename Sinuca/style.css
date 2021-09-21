@@ -1,0 +1,100 @@
+
+header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-decoration: black;
+    margin-top: 10px;
+    border-radius: 50px;
+    justify-content:space-between;
+    justify-items: center;
+    user-select: none;
+}
+
+header img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-decoration: black;
+    margin-top: 320px;
+    justify-content:space-between;
+    justify-items: center;
+    -webkit-filter: drop-shadow(0  20px 20px rgba(255, 255, 255, 0.411));
+    z-index: -10;
+    user-select: none;
+
+}
+
+body{
+    background-image: url(img/billiards-1677103_1920.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height:  95vh;
+    width: 95;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: rgb(255, 255, 255);
+}
+
+.logo{
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    user-select: none;
+
+}
+
+
+.barranavegacao{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+    user-select: none;
+    margin-left: 10vw;
+
+
+ 
+
+    
+
+}
+
+.barranavegacao a :hover{
+    display:flex;
+    width: 80px;
+    height: 80px;
+    user-select: none;    
+    flex-direction: row;
+    align-items: center; 
+    -webkit-filter: drop-shadow(0  20px 20px rgb(255, 255, 255));
+    opacity: 0.35;
+
+}
+
+
+.sinuca{
+    display: flex;
+
+}
+
+
+canvas{
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 200px;
+    border-radius: 20px;
+}
+
+

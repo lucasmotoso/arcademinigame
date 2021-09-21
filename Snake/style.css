@@ -1,0 +1,99 @@
+*{
+    text-decoration: none;
+}
+
+body{
+    background-image: url(img/polybius-fliperama-lenda-suicidio-oregon-20122018190927692.jpeg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height:  95vh;
+    width: 95;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: rgb(255, 255, 255);
+
+}
+header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-decoration: black;
+    margin-top: 10px;
+    border-radius: 50px;
+    justify-content:space-between;
+    justify-items: center;
+    user-select: none;
+}
+
+header img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-decoration: black;
+    margin-top: 180px;
+    justify-content:space-between;
+    justify-items: center;
+    -webkit-filter: drop-shadow(0  20px 20px rgb(255, 255, 255));
+    z-index: -10;
+    user-select: none;
+
+}
+
+.barranavegacao{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+    user-select: none;
+
+ 
+
+    
+
+}
+
+.barranavegacao a :hover{
+    display:flex;
+    width: 80px;
+    height: 80px;
+    user-select: none;    
+    flex-direction: row;
+    align-items: center; 
+    -webkit-filter: drop-shadow(0  20px 20px rgb(255, 255, 255));
+    opacity: 0.35;
+
+}
+
+
+
+
+canvas{
+    border-radius: 10px;
+    box-shadow: 500px whitesmoke;
+
+}
+
+
+
+
+footer{
+    font: bolder;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.80vh;
+    background-color: rgba(255, 255, 255, 0.753);
+    background-size: cover;
+    color: rgb(9, 61, 2);
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    margin-top: 1vh;
+    user-select: none;
+    border-radius: 5px;
+
+}
