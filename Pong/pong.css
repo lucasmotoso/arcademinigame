@@ -36,6 +36,7 @@ canvas {
   border: 1px solid white;
   padding: 1em;
   border-radius: 20px;
+  user-select: none;
 }
 
 #sidebar h2 {
