@@ -232,8 +232,8 @@ Pong = {
 
     ping: function() { this.play('ping'); },
     pong: function() { this.play('pong'); },
-    wall: function() { /*this.play('wall');*/ },
-    goal: function() { /*this.play('goal');*/ }
+    wall: function() { this.play('wall'); },
+    goal: function() { this.play('goal');}
 
   },
 
