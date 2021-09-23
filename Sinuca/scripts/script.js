@@ -72,7 +72,7 @@ function stickVisible() {
 }
 
 function displayGameOver() {
-    fill(0)
+    fill('white')
     textSize(24)
     text('Fim de jogo', 190, 250)
     text('Pontos:' + score.getScore(), 210, 300)

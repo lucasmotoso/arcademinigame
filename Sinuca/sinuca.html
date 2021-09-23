@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
     <title>Jogo de Sinuca</title>
-<body> 
-<header>
-    <img src="img/logo.png">
-</header>
-<div class="barranavegacao">
-    <a href="https://github.com/lucasmotoso">
-        <img width="50" height="50" src="img/githublogo.png" alt="">
-    </a>
-    <a href="https://www.linkedin.com/in/lucas-motoso-248586119/">
-        <img width="50" height="50" src="img/midias-sociais-linkedin-icon.png" alt="">
-    </a>
-    <a href="https://www.facebook.com/lucasmathozzo/">
-        <img width="50" height="50" src="img/facebook-logo-3-1.png" alt="">
-    </a>
-    <a href="mailto:lucasmotoso@gmail.com">
-        <img width="50" height="50" src="img/email.png" alt="">
-    </a>
-    <a
-        href="https://api.whatsapp.com/send?phone=5511997154656&text=Ol%C3%A1%20Lucas%2C%20vi%20seu%20c%C3%B3digo%20no%20Github.">
-        <img width="50" height="50" src="img/4485687.png" alt="">
-    </a>
 
-<div class="sinuca">
-    <canvas>
-    <script src="./scripts/p5.min.js"></script>
-    <script src="./scripts/state.js"></script>
-    <script src="./scripts/score.js"></script>
-    <script src="./scripts/stick.js"></script>
-    <script src="./scripts/ball.js"></script>
-    <script src="./scripts/table.js"></script>    
-    <script src="./scripts/script.js"></script>
-    </canvas>
-</div>
+<body>
+    <div id="sidebar">
+        <div class='description'>
+            <h2><img src="img/logo.png"></h2>
+            <br>
+            <br>
+            <p>
+                Este é um jogo de sinuca em JavaScript.
+            </p>
+            <p>
+                Utilize o <b>mouse</b> para mirar.<br>
+                Clique com o botão <b>esquerdo</b> dar a tacada.<br>
+                Se a bola <b>branca</b> for encaçapada, você perde.
+            </p>
+            <p>
+                Sua pontuação é composta pelo numero das bolas <b>coloridas</b> encaçapadas. <br>
+                O <b>numero</b> da <b>bola</b> será o número de pontos que você obterá quando acertar o buraco.
+            </p>
+            <br>
+            <br>
+            <p>
+                Clique <a href="../index.html"><b>aqui</b></a> para voltar ao site principal.
+            </p>
+        </div>
+
+        <div id="game">
+            <canvas>
+                <script src="./scripts/p5.min.js"></script>
+                <script src="./scripts/state.js"></script>
+                <script src="./scripts/score.js"></script>
+                <script src="./scripts/stick.js"></script>
+                <script src="./scripts/ball.js"></script>
+                <script src="./scripts/table.js"></script>
+                <script src="./scripts/script.js"></script>
+            </canvas>
+        </div>
 
 </body>
+
 </html>

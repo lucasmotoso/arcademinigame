@@ -1,100 +1,164 @@
-
-header{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-decoration: black;
-    margin-top: 10px;
-    border-radius: 50px;
-    justify-content:space-between;
-    justify-items: center;
-    user-select: none;
-}
-
-header img{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-decoration: black;
-    margin-top: 320px;
-    justify-content:space-between;
-    justify-items: center;
-    -webkit-filter: drop-shadow(0  20px 20px rgba(255, 255, 255, 0.411));
-    z-index: -10;
-    user-select: none;
-
-}
-
-body{
+* {
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
     background-image: url(img/billiards-1677103_1920.jpg);
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
     background-attachment: fixed;
-    height:  95vh;
-    width: 95;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    color: rgb(255, 255, 255);
-}
-
-.logo{
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    user-select: none;
-
-}
-
-
-.barranavegacao{
-    display: flex;
-    flex-direction: row;
-    justify-content:space-between;
-    align-items: center;
-    user-select: none;
-    margin-left: 10vw;
-
-
- 
-
-    
-
-}
-
-.barranavegacao a :hover{
-    display:flex;
-    width: 80px;
-    height: 80px;
-    user-select: none;    
-    flex-direction: row;
-    align-items: center; 
-    -webkit-filter: drop-shadow(0  20px 20px rgb(255, 255, 255));
-    opacity: 0.35;
-
-}
-
-
-.sinuca{
-    display: flex;
-
-}
-
-
-canvas{
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    width: 200px;
+    opacity: 0.92;
+  }
+  
+  canvas {
     border-radius: 20px;
-}
+  }
+  
+  .description img{
+      height: 200px;
+      width: 255px;
+  }
 
-
+  #unsupported {
+    border: 1px solid yellow;
+    color: rgb(255, 255, 255);
+    background-color: #FFFFAD;
+    padding: 2em;
+    margin: 1em;
+    display: inline-block;
+  }
+  
+  #sidebar {
+    width: 19em;
+    height: 44em;
+    float: left;
+    font-size: 0.825em;
+    background-color: rgba(0, 0, 0, 0.658);
+    border: 2px solid rgb(255, 255, 255);
+    padding: 2em;
+    border-radius: 20px;
+    user-select: none;
+  }
+  
+  #sidebar h2 {
+    color: white;
+    text-align: center;
+    margin: 0;
+  }
+  
+  #sidebar .parts {
+    padding-left: 1em;
+    list-style-type: none;
+    margin-bottom: 2em;
+    text-align: right;
+  }
+  
+  #sidebar .parts li a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  #sidebar .parts li a:visited {
+    color: white;
+  }
+  
+  #sidebar .parts li a:hover {
+    color: white;
+    text-decoration: underline;
+  }
+  
+  #sidebar .parts li a.selected {
+    color: #f6f8f6;
+    font-size: 2em;
+  }
+  
+  #sidebar .parts li a i {
+    color: #AAA;
+  }
+  
+  #sidebar .parts li a.selected i {
+    color: #F08010;
+  }
+  
+  #sidebar .settings {
+    line-height: 1.2em;
+    height: 1.2em;
+    text-align: right;
+    color: beige;
+  }
+  
+  
+  #sidebar .settings.speed {
+    margin-bottom: 1em;
+  }
+  
+  #sidebar .settings label {
+    vertical-align: middle;
+  }
+  
+  #sidebar .settings input {
+    vertical-align: middle;
+  }
+  
+  #sidebar .settings select {
+    vertical-align: middle;
+  }
+  
+  #sidebar .description {
+    margin-bottom: 2em;
+    color: rgb(255, 255, 255);
+    font-size: 0.90rem;
+  }
+  
+  #sidebar .description b {
+    font-weight: normal;
+    color: rgba(238, 255, 4, 0.534);
+  }
+  
+  
+  @media screen and (min-width: 0px) {
+    #sidebar {
+      display: none;
+    }
+  
+    #game {
+      display: block;
+      width: 480px;
+      height: 360px;
+      margin: 0 auto;
+    }
+  }
+  
+  @media screen and (min-width: 800px) {
+    #game {
+      width: 640px;
+      height: 480px;
+    }
+  }
+  
+  @media screen and (min-width: 1000px) {
+    #sidebar {
+      display: block;
+    }
+  
+    #game {
+      margin-left: 18em;
+    }
+  }
+  
+  @media screen and (min-width: 1200px) {
+    #game {
+      width: 800px;
+      height: 600px;
+    }
+  }
+  
+  @media screen and (min-width: 1600px) {
+    #game {
+      width: 1024px;
+      height: 768px;
+    }
+  }
