@@ -1,5 +1,6 @@
 # arcademinigame
 Mini games de clássicos dos anos 80/90 feito em JavaScript
+![Screenshot](screenshot.jpg)
 Saudações a todos!
 É com muito orgulho que apresento meu mais novo projeto.
 Antes de falar sobre ele quero ressaltar alguns fatos.
