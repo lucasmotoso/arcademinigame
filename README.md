@@ -10,7 +10,7 @@ Eis me aqui, lutando diariamente contra todos obstáculos e procrastinações qu
 Esse foi o projeto mais desafiador e mais complexo que elaborei até hoje, apliquei todos conceitos, principalmente os que aprendi no Bootcamp da @DigitalInnovationOne.
 Quero ressaltar também, que o resultado alcançado também se deve a mentoria do @PedroMarins, ele sempre ressalta “Constância constrói caráter”.
  
-#PraCegoVer: O texto abaixo, descreverá o projeto e o vídeo.
+#PraCegoVer: O texto abaixo, descreverá o projeto.
 
 SOBRE O PROJETO.
 (Tentarei ser o mais didático possível para técnicos e leigos entenderem.)
