@@ -2864,7 +2864,11 @@ input, select, textarea {
 			}
 
 			.tiles article:nth-child(6n - 3):before {
-				background-color: #ec8d81;
+				background-image:url(../../images/Snake.jpg);
+				background-size:cover;
+				background-position:center;
+				background-repeat: no-repeat;
+				background-color: #5eff00d2;
 			}
 
 			.tiles article:nth-child(6n - 2):before {
