@@ -1,0 +1,58 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║                  🎮 FASE 2 - HOMEPAGE MODERNA 🎮                          ║
+║                                                                            ║
+║            Refatorar HTML, CSS responsivo e melhorar interações           ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+📋 PLANO DA FASE 2:
+═══════════════════════════════════════════════════════════════════════════
+
+Esta fase será dividida em 5 tarefas principais:
+
+1️⃣ HTML SEMÂNTICO
+   └─ Revisar e otimizar estrutura do index-new.html
+   └─ Melhorar acessibilidade (ARIA, roles)
+   └─ Meta tags para SEO
+   └─ Estrutura semântica completa
+
+2️⃣ CSS RESPONSIVO MOBILE-FIRST
+   └─ Refactor SCSS em arquivo externo
+   └─ Breakpoints: 320px, 768px, 1024px
+   └─ Flexbox/Grid otimizado
+   └─ Media queries bem organizadas
+
+3️⃣ JAVASCRIPT PURO (Sem jQuery)
+   └─ Verificar que não há jQuery
+   └─ Otimizar seletores
+   └─ Event delegation
+   └─ Performance
+
+4️⃣ MENU HAMBURGER RESPONSIVO
+   └─ Testar em mobile
+   └─ Animações suaves
+   └─ Click outside funcional
+   └─ Acessibilidade completa
+
+5️⃣ ANIMAÇÕES MELHORADAS
+   └─ Hover effects elegantes
+   └─ Transições suaves
+   └─ Efeitos neon otimizados
+   └─ Performance (will-change, gpu acceleration)
+
+
+🎯 COMEÇANDO:
+═══════════════════════════════════════════════════════════════════════════
+
+TAREFA 1.1: HTML SEMÂNTICO
+
+Vou revisar e melhorar o index-new.html com:
+✓ Elementos semânticos corretos
+✓ ARIA labels
+✓ Meta tags completas
+✓ Estrutura acessível
+✓ Open Graph tags
+
+Status: INICIANDO...

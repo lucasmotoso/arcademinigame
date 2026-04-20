@@ -1,94 +1,196 @@
-* {
-    text-decoration: none;
+/* Sinuca 8 Ball - Arcade Style */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700&display=swap');
 
-  }
-  
-  body {
-    display: block;
-    background-image: url(img/billiards-1677103_1920.jpg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    opacity: 0.92;
-  }
-  
-  canvas {
-    border-radius: 20px;
-    
-  }
-  
-  .description img{
-      height: 200px;
-      width: 255px;
-  }
+:root {
+  --primary: #00ff88;
+  --secondary: #ff006e;
+  --accent: #00d4ff;
+  --yellow: #ffe600;
+  --dark: #0a0a1a;
+  --dark-card: #1a1a2e;
+  --light: #e8e8f0;
+  --table-green: #1b6b3a;
+  --felt: #1e7d42;
+  --cushion: #3d2b1f;
 
-  
-  #sidebar {
-    width: 304px;
-    height: 574px;
-    float: left;
-    font-size: 0.825em;
-    background-color: rgba(0, 0, 0, 0.658);
-    border: 8px solid rgba(255, 8, 8, 0.404);
-    padding: 2em;
-    border-radius: 20px;
-    user-select: none;
-  }
-  
-  #sidebar h2 {
-    color: white;
-    text-align: center;
-    margin: 0;
-  }
-  
-  #sidebar .parts {
-    padding-left: 1em;
-    list-style-type: none;
-    text-align: right;
-  }
-  
-  #sidebar .parts li a {
-    color: white;
-    text-decoration: none;
-  }
-  
-  #sidebar .parts li a:visited {
-    color: white;
-  }
-  
-  #sidebar .parts li a:hover {
-    color: white;
-    text-decoration: underline;
-  }
-  
-  #sidebar .parts li a.selected {
-    color: #f6f8f6;
-    font-size: 2em;
-  }
-  
-  #sidebar .parts li a i {
-    color: #AAA;
-  }
-  
-  #sidebar .parts li a.selected i {
-    color: #F08010;
-  }
-  
-  #sidebar .settings {
-    line-height: 1.2em;
-    height: 1.2em;
-    text-align: right;
-    color: beige;
-  }
+  --glow-green: 0 0 10px rgba(0,255,136,0.5), 0 0 30px rgba(0,255,136,0.2);
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-tech: 'Orbitron', sans-serif;
+}
 
-  #sidebar .description {
-    margin-bottom: 2em;
-    color: rgb(255, 255, 255);
-    font-size: 0.90rem;
-  }
-  
-  #sidebar .description b {
-    font-weight: normal;
-    color: rgba(238, 255, 4, 0.534);
-  }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-tech);
+  background: var(--dark);
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(0,255,136,0.05) 0%, transparent 50%);
+  color: var(--light);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#game-container {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Header */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--dark-card);
+  border: 1px solid rgba(0,255,136,0.2);
+}
+
+.game-header h2 {
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  color: var(--primary);
+  text-shadow: var(--glow-green);
+  letter-spacing: 0.1em;
+}
+
+.btn-back, .btn-reset {
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  letter-spacing: 0.05em;
+}
+
+.btn-back:hover, .btn-reset:hover {
+  background: rgba(0,212,255,0.1);
+  box-shadow: 0 0 10px rgba(0,212,255,0.3);
+}
+
+/* Game Info */
+.game-info {
+  padding: 0.75rem 1rem;
+  background: var(--dark-card);
+  border: 1px solid rgba(0,255,136,0.15);
+}
+
+.info-row {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.score-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.score-label {
+  font-family: var(--font-pixel);
+  font-size: 0.4rem;
+  color: #666;
+  letter-spacing: 0.15em;
+}
+
+.score-value {
+  font-family: var(--font-pixel);
+  font-size: 1rem;
+  color: var(--primary);
+  text-shadow: var(--glow-green);
+}
+
+.controls-hint {
+  text-align: center;
+  font-size: 0.7rem;
+  color: #555;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ── ARCADE SCREEN FRAME (standard) ───────── */
+#canvas-wrapper {
+  background: #080814;
+  border: 4px solid #1e1e3a;
+  border-radius: 6px;
+  padding: 6px;
+  position: relative;
+  box-shadow:
+    0 0 0 1px rgba(0,255,136,0.08),
+    0 8px 30px rgba(0,0,0,0.6),
+    inset 0 0 30px rgba(0,0,0,0.7),
+    0 0 60px rgba(0,255,136,0.04);
+}
+
+/* CRT scanlines overlay */
+#canvas-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 4px;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.06) 2px,
+    rgba(0,0,0,0.06) 4px
+  );
+  z-index: 2;
+}
+
+/* Screen bezel glow */
+#canvas-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 7px;
+  border: 1px solid rgba(0,255,136,0.1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+#gameCanvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+  cursor: crosshair;
+}
+
+/* Touch Controls */
+#touch-controls {
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.touch-hint {
+  font-size: 0.7rem;
+  color: #444;
+}
+
+@media (min-width: 769px) {
+  #touch-controls { display: none; }
+}
+
+@media (max-width: 768px) {
+  .game-header h2 { font-size: 0.55rem; }
+  .controls-hint { display: none; }
+  .info-row { gap: 1.5rem; }
+}

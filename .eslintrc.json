@@ -1,0 +1,19 @@
+{
+  "extends": ["eslint:recommended", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2024,
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2024": true
+  },
+  "rules": {
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "no-console": "off",
+    "prefer-const": "warn",
+    "eqeqeq": ["warn", "always"],
+    "curly": ["warn", "all"]
+  }
+}

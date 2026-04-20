@@ -1,93 +1,71 @@
-<!DOCTYPE html> 
-<html>
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-  <title>Pong!</title> 
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
-  <link href="pong.css" media="screen, print" rel="stylesheet" type="text/css" />
-  <link rel="icon" href="/images/icon.png" sizes="80x80"> 
-</head> 
- 
-<body> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0a1a">
+  <title>PONG - Arcade Mini Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link href="pong.css" rel="stylesheet">
+  <link rel="icon" href="../images/icon.png">
+</head>
+<body>
 
-  <div id="sidebar">
-
-    <h2><img src="images/logo.png" alt=""></h2>
-
-
-    <div class='description'>
-      <p>
-        Esta é uma versão JavaScript do Pong.
-      </p>
-      <p>
-        Aperte <b>1</b> para single player.<br>
-        Aperte <b>2</b> para double player.<br>
-        Aperte <b>0</b> ver o computador jogar sozinho.
-      </p>
-      <p>
-        Jogador 1 se movimenta usando <b>Q</b> e <b>A</b> keys.<br>
-        Jogador 2 se movimenta usando <b>P</b> e <b>L</b> keys.
-      </p>
-      <p>
-        <b>Esc</b> para abandonar o jogo.
-      </p>
-      <p>
-         Clique <a href="../index.html"><b>aqui</b></a>  para voltar ao site principal.
-      </p>
+  <div id="game-container">
+    <div class="game-header">
+      <a href="../index.html" class="btn-back">← MENU</a>
+      <h2>🏓 PONG</h2>
+      <div class="header-controls">
+        <label class="toggle-label">
+          <input type="checkbox" id="sound-toggle">
+          <span>🔊</span>
+        </label>
+      </div>
     </div>
 
-    <div class='settings'>
-      <label for='sound'>Som </label>
-      <input type='checkbox' id='sound'>
+    <div id="canvas-wrapper">
+      <canvas id="pongCanvas"></canvas>
     </div>
 
-    <div class='settings'>
-      <label for='stats'>Status </label>
-      <input type='checkbox' id='stats' checked>
+    <div id="touch-area">
+      <div id="touch-left" class="touch-zone">
+        <span class="touch-zone-label">P1</span>
+      </div>
+      <div id="touch-right" class="touch-zone">
+        <span class="touch-zone-label">P2</span>
+      </div>
     </div>
 
-    <div class='settings'>
-      <label for='footprints'>Rastros: </label>
-      <input type='checkbox' id='footprints'>
+    <div class="game-instructions">
+      <div class="instruction-row">
+        <span class="key-group"><kbd>1</kbd> Solo</span>
+        <span class="key-group"><kbd>2</kbd> Duo</span>
+        <span class="key-group"><kbd>0</kbd> Demo</span>
+        <span class="key-group"><kbd>Esc</kbd> Sair</span>
+      </div>
+      <div class="instruction-row">
+        <span class="key-group">P1: <kbd>Q</kbd><kbd>A</kbd></span>
+        <span class="key-group">P2: <kbd>P</kbd><kbd>L</kbd></span>
+      </div>
     </div>
-
-    <div class='settings'>
-      <label for='predictions'>Previsões: </label>
-      <input type='checkbox' id='predictions'>
-    </div>
-
   </div>
 
-  <canvas id="game">
-    <div id="unsupported">
-      Sorry, this example cannot be run because your browser does not support the &lt;canvas&gt; element
-    </div>
-  </canvas>
-
-  <script src="game.js" type="text/javascript"></script> 
-  <script src="pong.js" type="text/javascript"></script>
-  <script type="text/javascript">
+  <script src="game.js"></script>
+  <script src="pong.js"></script>
+  <script>
   Game.ready(function() {
+    var sound = document.getElementById('sound-toggle');
 
-    var size        = document.getElementById('size');
-    var sound       = document.getElementById('sound');
-    var stats       = document.getElementById('stats');
-    var footprints  = document.getElementById('footprints');
-    var predictions = document.getElementById('predictions');
-
-    var pong = Game.start('game', Pong, {
-      sound:       sound.checked,
-      stats:       stats.checked,
-      footprints:  footprints.checked,
-      predictions: predictions.checked
+    var pong = Game.start('pongCanvas', Pong, {
+      sound: sound.checked,
+      stats: false,
+      footprints: false,
+      predictions: false
     });
 
-    Game.addEvent(sound,       'change', function() { pong.enableSound(sound.checked);           });
-    Game.addEvent(stats,       'change', function() { pong.showStats(stats.checked);             });
-    Game.addEvent(footprints,  'change', function() { pong.showFootprints(footprints.checked);   });
-    Game.addEvent(predictions, 'change', function() { pong.showPredictions(predictions.checked); });
-
+    Game.addEvent(sound, 'change', function() { pong.enableSound(sound.checked); });
   });
   </script>
-
-</body> 
+</body>
 </html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#0a0a1a">
-  <title>SNAKE - Arcade Mini Game</title>
+  <title>Sinuca 8 Ball - Arcade Mini Game</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
@@ -14,10 +14,8 @@
   <div id="game-container">
     <div class="game-header">
       <a href="../index.html" class="btn-back">← MENU</a>
-      <h2>🐍 SNAKE</h2>
-      <div class="header-right">
-        <span class="speed-label" id="speed-display">SPD 1</span>
-      </div>
+      <h2>🎱 SINUCA 8 BALL</h2>
+      <button id="btn-reset" class="btn-reset">↻ RESET</button>
     </div>
 
     <div class="game-info">
@@ -27,8 +25,8 @@
           <span id="current-score" class="score-value">0</span>
         </div>
         <div class="score-box">
-          <span class="score-label">COMIDA</span>
-          <span id="food-count" class="score-value food-icon">🍎</span>
+          <span class="score-label">BOLAS</span>
+          <span id="balls-left" class="score-value">15</span>
         </div>
         <div class="score-box">
           <span class="score-label">RECORDE</span>
@@ -36,7 +34,7 @@
         </div>
       </div>
       <div class="controls-hint">
-        <span>⌨️ Setas ou WASD para mover — Cobra atravessa as paredes</span>
+        <span>🖱️ Clique na bola branca e arraste para trás para mirar — solte para tacar</span>
       </div>
     </div>
 
@@ -45,13 +43,7 @@
     </div>
 
     <div id="touch-controls">
-      <button id="btn-up" class="touch-btn" aria-label="Cima">▲</button>
-      <div class="touch-row">
-        <button id="btn-left" class="touch-btn" aria-label="Esquerda">◀</button>
-        <button id="btn-down" class="touch-btn" aria-label="Baixo">▼</button>
-        <button id="btn-right" class="touch-btn" aria-label="Direita">▶</button>
-      </div>
-      <p class="touch-hint">📱 Toque nas setas ou deslize no canvas</p>
+      <p class="touch-hint">📱 Toque na bola branca e arraste para mirar e controlar a força</p>
     </div>
   </div>
 

@@ -1,89 +1,242 @@
-body{
-    background: rgb(37, 1, 34);
-    background-image: url(img/background1.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-}
-#gameBox{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    box-shadow: 0px 0px 50px #01dee6;
-    border: 8px solid rgba(255, 197, 8, 0.486);
-    overflow: hidden;
-    border-radius: 10px;
+/* ============================================================================
+   SNAKE - Arcade Screen Style
+   Design System: shared arcade-cabinet frame with CRT scanlines
+   ============================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700&display=swap');
+
+:root {
+  --primary: #00ff88;
+  --secondary: #ff006e;
+  --accent: #00d4ff;
+  --yellow: #ffe600;
+  --dark: #0a0a1a;
+  --dark-card: #1a1a2e;
+  --light: #e8e8f0;
+
+  --glow-green: 0 0 10px rgba(0,255,136,0.5), 0 0 30px rgba(0,255,136,0.2);
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-tech: 'Orbitron', sans-serif;
 }
 
- 
-#sidebar {
-    width: 304px;
-    height: 424px;
-    top: 50%;
-    float: left;
-    font-size: 0.825em;
-    background-color: rgba(0, 0, 0, 0.829);
-    border: 8px solid rgba(255, 197, 8, 0.801);
-    padding: 2em;
-    border-radius: 20px;
-    user-select: none;
-  }
-  
-  #sidebar h2 {
-    color: white;
-    text-align: center;
-    margin: 0;
-  }
-  
-  #sidebar .parts {
-    padding-left: 1em;
-    list-style-type: none;
-    text-align: right;
-  }
-  
-  #sidebar .parts li a {
-    color: white;
-    text-decoration: none;
-  }
-  
-  #sidebar .parts li a:visited {
-    color: white;
-  }
-  
-  #sidebar .parts li a:hover {
-    color: white;
-    text-decoration: underline;
-  }
-  
-  #sidebar .parts li a.selected {
-    color: #f6f8f6;
-    font-size: 2em;
-  }
-  
-  #sidebar .parts li a i {
-    color: #AAA;
-  }
-  
-  #sidebar .parts li a.selected i {
-    color: #F08010;
-  }
-  
-  #sidebar .settings {
-    line-height: 1.2em;
-    height: 1.2em;
-    text-align: right;
-    color: beige;
-  }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  #sidebar .description {
-    margin-bottom: 2em;
-    color: rgb(255, 255, 255);
-    font-size: 0.90rem;
-  }
-  
-  #sidebar .description b {
-    font-weight: normal;
-    color: rgba(238, 255, 4, 0.534);
-  }
+body {
+  font-family: var(--font-tech);
+  background: var(--dark);
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(0,255,136,0.05) 0%, transparent 50%);
+  color: var(--light);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#game-container {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ── HEADER (standard) ─────────────────────── */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--dark-card);
+  border: 1px solid rgba(0,255,136,0.2);
+}
+
+.game-header h2 {
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  color: var(--primary);
+  text-shadow: var(--glow-green);
+  letter-spacing: 0.1em;
+}
+
+.btn-back {
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  letter-spacing: 0.05em;
+}
+
+.btn-back:hover {
+  background: rgba(0,212,255,0.1);
+  box-shadow: 0 0 10px rgba(0,212,255,0.3);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.speed-label {
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  color: var(--yellow);
+  letter-spacing: 0.1em;
+}
+
+/* ── SCORE BAR (standard) ──────────────────── */
+.game-info {
+  padding: 0.75rem 1rem;
+  background: var(--dark-card);
+  border: 1px solid rgba(0,255,136,0.15);
+}
+
+.info-row {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.score-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.score-label {
+  font-family: var(--font-pixel);
+  font-size: 0.4rem;
+  color: #666;
+  letter-spacing: 0.15em;
+}
+
+.score-value {
+  font-family: var(--font-pixel);
+  font-size: 1rem;
+  color: var(--primary);
+  text-shadow: var(--glow-green);
+}
+
+.food-icon {
+  font-family: sans-serif;
+  font-size: 1.2rem;
+  text-shadow: none;
+}
+
+.controls-hint {
+  text-align: center;
+  font-size: 0.7rem;
+  color: #555;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ── ARCADE SCREEN FRAME (standard) ───────── */
+#canvas-wrapper {
+  background: #080814;
+  border: 4px solid #1e1e3a;
+  border-radius: 6px;
+  padding: 6px;
+  position: relative;
+  box-shadow:
+    0 0 0 1px rgba(0,255,136,0.08),
+    0 8px 30px rgba(0,0,0,0.6),
+    inset 0 0 30px rgba(0,0,0,0.7),
+    0 0 60px rgba(0,255,136,0.04);
+}
+
+/* CRT scanlines overlay */
+#canvas-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 4px;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.06) 2px,
+    rgba(0,0,0,0.06) 4px
+  );
+  z-index: 2;
+}
+
+/* Screen bezel glow */
+#canvas-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 7px;
+  border: 1px solid rgba(0,255,136,0.1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+#gameCanvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+  image-rendering: pixelated;
+}
+
+/* ── TOUCH CONTROLS ────────────────────────── */
+#touch-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.touch-row {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.touch-btn {
+  width: 56px;
+  height: 48px;
+  font-size: 1rem;
+  background: var(--dark-card);
+  border: 1px solid rgba(0,255,136,0.25);
+  color: var(--primary);
+  cursor: pointer;
+  transition: all 0.1s;
+  font-family: inherit;
+}
+
+.touch-btn:active {
+  background: rgba(0,255,136,0.12);
+  border-color: var(--primary);
+  box-shadow: 0 0 12px rgba(0,255,136,0.3);
+  color: #fff;
+}
+
+.touch-hint {
+  font-size: 0.65rem;
+  color: #444;
+  margin-top: 0.2rem;
+}
+
+@media (min-width: 769px) {
+  #touch-controls { display: none; }
+}
+
+@media (max-width: 768px) {
+  .game-header h2 { font-size: 0.55rem; }
+  .controls-hint { display: none; }
+  .info-row { gap: 1.5rem; }
+  #game-container { max-width: 420px; }
+}

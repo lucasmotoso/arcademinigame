@@ -1,0 +1,175 @@
+arcade-minigame/
+│
+├── 📂 src/                         ← CÓDIGO PRINCIPAL
+│   ├── index.js                    Entry point (imports app.js)
+│   │
+│   ├── 📂 core/                    App initialization
+│   │   └── app.js                  🎮 Main app logic
+│   │                                   ├─ setupTheme()
+│   │                                   ├─ setupNavigation()
+│   │                                   ├─ setupGameCards()
+│   │                                   ├─ setupSmoothScroll()
+│   │                                   └─ setupLazyLoading()
+│   │
+│   ├── 📂 components/              Reusable UI components
+│   │   ├── navigation.js           🎚️  Menu + hamburger
+│   │   │                              ├─ Toggle menu
+│   │   │                              ├─ Close on click
+│   │   │                              └─ Click outside
+│   │   │
+│   │   └── game-cards.js           🎮 Card interactions
+│   │                                   ├─ Hover effects
+│   │                                   ├─ Touch support
+│   │                                   └─ Animation triggers
+│   │
+│   ├── 📂 games/                   Game modules (placeholder)
+│   │   ├── 📂 pong/
+│   │   │   └── pong.js
+│   │   │
+│   │   ├── 📂 snake/
+│   │   │   └── snake.js
+│   │   │
+│   │   └── 📂 sinuca/
+│   │       └── sinuca.js
+│   │
+│   ├── 📂 styles/                  CSS/SCSS
+│   │   └── main.scss               📊 13KB stylesheet
+│   │                                   ├─ Variables & colors
+│   │                                   ├─ Reset & base
+│   │                                   ├─ Header & nav
+│   │                                   ├─ Hero section
+│   │                                   ├─ Games grid
+│   │                                   ├─ About & contact
+│   │                                   ├─ Footer
+│   │                                   └─ Responsive media queries
+│   │
+│   └── 📂 utils/                   Utility functions
+│       ├── theme.js                🌙 Dark/Light theme
+│       │                              ├─ setupTheme()
+│       │                              ├─ applyTheme()
+│       │                              ├─ getCurrentTheme()
+│       │                              └─ updateThemeToggleText()
+│       │
+│       └── storage.js              💾 LocalStorage API
+│                                       ├─ loadHighScores()
+│                                       ├─ saveScore()
+│                                       ├─ getTopScores()
+│                                       ├─ loadPreferences()
+│                                       ├─ savePreferences()
+│                                       ├─ exportData()
+│                                       └─ clearAllData()
+│
+├── 📂 dist/                        ← BUILD OUTPUT
+│   ├── main.js                     Bundled + minified (2.9 KB)
+│   └── main.js.map                 Source map (13.5 KB)
+│
+├── 📂 node_modules/                Dependencies (103 packages)
+│   ├── esbuild/
+│   ├── eslint/
+│   ├── prettier/
+│   └── ...
+│
+├── 📂 assets/                      Original project files
+│   ├── css/
+│   ├── js/
+│   ├── sass/
+│   └── webfonts/
+│
+├── 📂 Pong/                        Original Pong game
+├── 📂 Snake/                       Original Snake game
+├── 📂 Sinuca/                      Original Sinuca game
+│
+├── 📄 index-new.html              🎨 New modern homepage
+│                                       ├─ Semantic HTML5
+│                                       ├─ Inline CSS styles
+│                                       ├─ Responsive design
+│                                       ├─ Menu with hamburger
+│                                       ├─ Dark/light theme toggle
+│                                       ├─ Game cards grid
+│                                       ├─ About section
+│                                       ├─ Contact section
+│                                       └─ Footer
+│
+├── 📄 index.html                  Original homepage (backup)
+│
+├── 📋 Configuration Files:
+│   ├── package.json               npm dependencies & scripts
+│   ├── package-lock.json          Lock file
+│   ├── .eslintrc.json             Linting rules
+│   ├── .prettierrc.json           Code formatting
+│   ├── .gitignore                 Git exclusions
+│   └── esbuild.config.js          Build configuration
+│
+├── 📚 Documentation (5 guides):
+│   ├── COMECE_AQUI.txt            ← START HERE!
+│   ├── README_NOVO.md             Complete guide
+│   ├── ROTEIRO_COMPLETO.md        6-phase roadmap
+│   ├── SETUP_PHASE1.md            Setup instructions
+│   ├── STATUS_FASE1.txt           Phase 1 status
+│   ├── RESUMO_FASE1.txt           Phase 1 summary
+│   ├── FASE1_COMPLETA.txt         Phase 1 complete
+│   └── PRONTO_PARA_COMEÇAR.txt   Ready to start!
+│
+├── 📝 Original docs:
+│   ├── README.md                  Original readme
+│   └── screenshot.jpg
+│
+└── 🔧 Setup scripts (4 options):
+    ├── init.ps1                   PowerShell (ALREADY EXECUTED)
+    ├── init-structure.py          Python version
+    ├── setup-dirs.js              Node.js version
+    └── full-init.sh               Bash version
+
+
+═══════════════════════════════════════════════════════════════════════════
+KEY FEATURES OF THE NEW STRUCTURE:
+═══════════════════════════════════════════════════════════════════════════
+
+✅ MODULAR ARCHITECTURE
+   └─ Each component is isolated and reusable
+   └─ Games are separate modules
+   └─ Utils are shared across the project
+
+✅ MODERN JAVASCRIPT
+   └─ ES6+ modules
+   └─ No jQuery dependency
+   └─ Web APIs (Intersection Observer, LocalStorage, etc)
+
+✅ STYLE SYSTEM
+   └─ SCSS with variables
+   └─ Mobile-first responsive design
+   └─ Dark/Light theme system
+   └─ Neon color palette preserved
+
+✅ BUILD SYSTEM
+   └─ esbuild for fast bundling
+   └─ npm scripts for development
+   └─ ESLint + Prettier for code quality
+   └─ Source maps for debugging
+
+✅ STORAGE
+   └─ LocalStorage for scores
+   └─ User preferences persistence
+   └─ Export/backup functionality
+
+✅ RESPONSIVE
+   └─ Mobile-first approach
+   └─ Desktop, tablet, mobile support
+   └─ Touch support for games
+   └─ Hamburger menu for mobile
+
+
+═══════════════════════════════════════════════════════════════════════════
+TO GET STARTED:
+═══════════════════════════════════════════════════════════════════════════
+
+$ npm run dev
+
+This will:
+• Start esbuild in watch mode
+• Create dist/main.js with hot reload
+• Launch your project at http://localhost:8080
+• Rebuild automatically when you save files
+
+
+═══════════════════════════════════════════════════════════════════════════

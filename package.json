@@ -1,0 +1,35 @@
+{
+  "name": "arcade-minigame",
+  "version": "2.0.0",
+  "description": "Renovated retro arcade minigames collection with modern responsive design",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "esbuild src/index.js --bundle --outfile=dist/main.js --loader:.js=jsx --watch",
+    "build": "esbuild src/index.js --bundle --outfile=dist/main.js --minify --sourcemap",
+    "lint": "eslint src --fix",
+    "format": "prettier --write src",
+    "preview": "npx http-server dist -p 8080"
+  },
+  "keywords": [
+    "arcade",
+    "games",
+    "pong",
+    "snake",
+    "sinuca",
+    "retro",
+    "vaporwave"
+  ],
+  "author": "Lucas Motoso",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.20.2",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5",
+    "sass": "^1.99.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

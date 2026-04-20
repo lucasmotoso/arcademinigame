@@ -1,29 +1,35 @@
 //=============================================================================
-// PONG
+// PONG - Refactored with Neon Effects, Touch Support, and Modern Canvas Rendering
 //=============================================================================
 
 Pong = {
 
   Defaults: {
-    width:        640,   // logical canvas width (browser will scale to physical canvas size - which is controlled by @media css queries)
-    height:       480,   // logical canvas height (ditto)
+    width:        640,
+    height:       480,
     wallWidth:    12,
-    paddleWidth:  12,
-    paddleHeight: 95,
-    paddleSpeed:  2,     // should be able to cross court vertically   in 2 seconds
-    ballSpeed:    4,     // should be able to cross court horizontally in 4 seconds, at starting speed ...
-    ballAccel:    8,     // ... but accelerate as time passes
+    paddleWidth:  14,
+    paddleHeight: 90,
+    paddleSpeed:  2,
+    ballSpeed:    4,
+    ballAccel:    8,
     ballRadius:   7,
-    sound:        true
+    sound:        false
   },
 
   Colors: {
-    walls:           'blue',
-    ball:            'orange',
-    score:           'red',
-    footprint:       '#333',
-    predictionGuess: 'yellow',
-    predictionExact: 'red'
+    walls:           '#00ff88',
+    ball:            '#ff006e',
+    score:           '#00d4ff',
+    footprint:       'rgba(255,0,110,0.15)',
+    predictionGuess: '#ffe600',
+    predictionExact: '#ff006e',
+    paddle1:         '#00ff88',
+    paddle2:         '#00d4ff',
+    centerLine:      'rgba(0,255,136,0.15)',
+    wallGlow:        'rgba(0,255,136,0.3)',
+    ballGlow:        'rgba(255,0,110,0.5)',
+    trailColor:      'rgba(255,0,110,0.08)',
   },
 
   Images: [
@@ -33,23 +39,23 @@ Pong = {
   ],
 
   Levels: [
-    {aiReaction: 0.2, aiError:  40}, // 0:  ai is losing by 8
-    {aiReaction: 0.3, aiError:  50}, // 1:  ai is losing by 7
-    {aiReaction: 0.4, aiError:  60}, // 2:  ai is losing by 6
-    {aiReaction: 0.5, aiError:  70}, // 3:  ai is losing by 5
-    {aiReaction: 0.6, aiError:  80}, // 4:  ai is losing by 4
-    {aiReaction: 0.7, aiError:  90}, // 5:  ai is losing by 3
-    {aiReaction: 0.8, aiError: 100}, // 6:  ai is losing by 2
-    {aiReaction: 0.9, aiError: 110}, // 7:  ai is losing by 1
-    {aiReaction: 1.0, aiError: 120}, // 8:  tie
-    {aiReaction: 1.1, aiError: 130}, // 9:  ai is winning by 1
-    {aiReaction: 1.2, aiError: 140}, // 10: ai is winning by 2
-    {aiReaction: 1.3, aiError: 150}, // 11: ai is winning by 3
-    {aiReaction: 1.4, aiError: 160}, // 12: ai is winning by 4
-    {aiReaction: 1.5, aiError: 170}, // 13: ai is winning by 5
-    {aiReaction: 1.6, aiError: 180}, // 14: ai is winning by 6
-    {aiReaction: 1.7, aiError: 190}, // 15: ai is winning by 7
-    {aiReaction: 1.8, aiError: 200}  // 16: ai is winning by 8
+    {aiReaction: 0.2, aiError:  40},
+    {aiReaction: 0.3, aiError:  50},
+    {aiReaction: 0.4, aiError:  60},
+    {aiReaction: 0.5, aiError:  70},
+    {aiReaction: 0.6, aiError:  80},
+    {aiReaction: 0.7, aiError:  90},
+    {aiReaction: 0.8, aiError: 100},
+    {aiReaction: 0.9, aiError: 110},
+    {aiReaction: 1.0, aiError: 120},
+    {aiReaction: 1.1, aiError: 130},
+    {aiReaction: 1.2, aiError: 140},
+    {aiReaction: 1.3, aiError: 150},
+    {aiReaction: 1.4, aiError: 160},
+    {aiReaction: 1.5, aiError: 170},
+    {aiReaction: 1.6, aiError: 180},
+    {aiReaction: 1.7, aiError: 190},
+    {aiReaction: 1.8, aiError: 200}
   ],
 
   //-----------------------------------------------------------------------------
@@ -63,12 +69,15 @@ Pong = {
       this.images      = images;
       this.playing     = false;
       this.scores      = [0, 0];
+      this.trail       = [];
+      this.particles   = [];
       this.menu        = Object.construct(Pong.Menu,   this);
       this.court       = Object.construct(Pong.Court,  this);
-      this.leftPaddle  = Object.construct(Pong.Paddle, this);
+      this.leftPaddle  = Object.construct(Pong.Paddle, this, false);
       this.rightPaddle = Object.construct(Pong.Paddle, this, true);
       this.ball        = Object.construct(Pong.Ball,   this);
       this.sounds      = Object.construct(Pong.Sounds, this);
+      this.setupTouch();
       this.runner.start();
     }.bind(this));
   },
@@ -81,6 +90,9 @@ Pong = {
     if (!this.playing) {
       this.scores = [0, 0];
       this.playing = true;
+      this.trail = [];
+      this.particles = [];
+      this.numPlayers = numPlayers;
       this.leftPaddle.setAuto(numPlayers < 1, this.level(0));
       this.rightPaddle.setAuto(numPlayers < 2, this.level(1));
       this.ball.reset();
@@ -106,30 +118,83 @@ Pong = {
   goal: function(playerNo) {
     this.sounds.goal();
     this.scores[playerNo] += 1;
+    // Spawn particles
+    this.spawnGoalParticles(playerNo);
     if (this.scores[playerNo] == 9) {
       this.menu.declareWinner(playerNo);
       this.stop();
-    }
-    else {
+    } else {
       this.ball.reset(playerNo);
       this.leftPaddle.setLevel(this.level(0));
       this.rightPaddle.setLevel(this.level(1));
     }
   },
 
+  spawnGoalParticles: function(playerNo) {
+    var x = playerNo === 0 ? this.width - 20 : 20;
+    var y = this.height / 2;
+    for (var i = 0; i < 20; i++) {
+      this.particles.push({
+        x: x,
+        y: y + Game.random(-50, 50),
+        vx: Game.random(-3, 3),
+        vy: Game.random(-4, 4),
+        life: 1.0,
+        color: playerNo === 0 ? Pong.Colors.paddle1 : Pong.Colors.paddle2,
+        size: Game.random(2, 6)
+      });
+    }
+  },
+
+  spawnHitParticles: function(x, y) {
+    for (var i = 0; i < 8; i++) {
+      this.particles.push({
+        x: x,
+        y: y,
+        vx: Game.random(-2, 2),
+        vy: Game.random(-2, 2),
+        life: 1.0,
+        color: Pong.Colors.ball,
+        size: Game.random(1, 4)
+      });
+    }
+  },
+
   update: function(dt) {
     this.leftPaddle.update(dt, this.ball);
     this.rightPaddle.update(dt, this.ball);
+
+    // Update particles
+    for (var i = this.particles.length - 1; i >= 0; i--) {
+      var p = this.particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= 0.02;
+      if (p.life <= 0) this.particles.splice(i, 1);
+    }
+
     if (this.playing) {
       var dx = this.ball.dx;
       var dy = this.ball.dy;
       this.ball.update(dt, this.leftPaddle, this.rightPaddle);
-      if (this.ball.dx < 0 && dx > 0)
+
+      // Track ball trail
+      this.trail.push({x: this.ball.x, y: this.ball.y, life: 1.0});
+      if (this.trail.length > 25) this.trail.shift();
+      for (var t = 0; t < this.trail.length; t++) {
+        this.trail[t].life -= 0.04;
+      }
+      this.trail = this.trail.filter(function(t) { return t.life > 0; });
+
+      if (this.ball.dx < 0 && dx > 0) {
         this.sounds.ping();
-      else if (this.ball.dx > 0 && dx < 0)
+        this.spawnHitParticles(this.ball.x, this.ball.y);
+      } else if (this.ball.dx > 0 && dx < 0) {
         this.sounds.pong();
-      else if (this.ball.dy * dy < 0)
+        this.spawnHitParticles(this.ball.x, this.ball.y);
+      } else if (this.ball.dy * dy < 0) {
         this.sounds.wall();
+      }
 
       if (this.ball.left > this.width)
         this.goal(0);
@@ -139,13 +204,55 @@ Pong = {
   },
 
   draw: function(ctx) {
+    // Background
+    ctx.fillStyle = '#050510';
+    ctx.fillRect(0, 0, this.width, this.height);
+
+    // Background grid
+    ctx.strokeStyle = 'rgba(0,255,136,0.02)';
+    ctx.lineWidth = 0.5;
+    for (var gx = 0; gx < this.width; gx += 30) {
+      ctx.beginPath();
+      ctx.moveTo(gx, 0);
+      ctx.lineTo(gx, this.height);
+      ctx.stroke();
+    }
+    for (var gy = 0; gy < this.height; gy += 30) {
+      ctx.beginPath();
+      ctx.moveTo(0, gy);
+      ctx.lineTo(this.width, gy);
+      ctx.stroke();
+    }
+
     this.court.draw(ctx, this.scores[0], this.scores[1]);
     this.leftPaddle.draw(ctx);
     this.rightPaddle.draw(ctx);
-    if (this.playing)
+
+    if (this.playing) {
+      // Draw trail
+      for (var t = 0; t < this.trail.length; t++) {
+        var tr = this.trail[t];
+        ctx.beginPath();
+        ctx.arc(tr.x, tr.y, this.ball.radius * tr.life, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,0,110,' + (tr.life * 0.2) + ')';
+        ctx.fill();
+      }
+
       this.ball.draw(ctx);
-    else
+    } else {
       this.menu.draw(ctx);
+    }
+
+    // Draw particles
+    for (var i = 0; i < this.particles.length; i++) {
+      var p = this.particles[i];
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.life;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
   },
 
   onkeydown: function(keyCode) {
@@ -175,6 +282,68 @@ Pong = {
   showPredictions: function(on) { this.cfg.predictions = on; },
   enableSound:     function(on) { this.cfg.sound = on; },
 
+  setupTouch: function() {
+    var self = this;
+    var canvas = this.runner.canvas;
+
+    // Touch on canvas to start game
+    canvas.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      if (!self.playing) {
+        self.startSinglePlayer();
+        return;
+      }
+    }, {passive: false});
+
+    // Touch zones for paddle control
+    var leftZone = document.getElementById('touch-left');
+    var rightZone = document.getElementById('touch-right');
+
+    if (leftZone) {
+      leftZone.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        if (!self.playing) { self.startSinglePlayer(); return; }
+        var rect = leftZone.getBoundingClientRect();
+        var y = e.touches[0].clientY - rect.top;
+        if (y < rect.height / 2) {
+          if (!self.leftPaddle.auto) self.leftPaddle.moveUp();
+        } else {
+          if (!self.leftPaddle.auto) self.leftPaddle.moveDown();
+        }
+      }, {passive: false});
+
+      leftZone.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        if (!self.leftPaddle.auto) {
+          self.leftPaddle.stopMovingUp();
+          self.leftPaddle.stopMovingDown();
+        }
+      }, {passive: false});
+    }
+
+    if (rightZone) {
+      rightZone.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        if (!self.playing) { self.startDoublePlayer(); return; }
+        var rect = rightZone.getBoundingClientRect();
+        var y = e.touches[0].clientY - rect.top;
+        if (y < rect.height / 2) {
+          if (!self.rightPaddle.auto) self.rightPaddle.moveUp();
+        } else {
+          if (!self.rightPaddle.auto) self.rightPaddle.moveDown();
+        }
+      }, {passive: false});
+
+      rightZone.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        if (!self.rightPaddle.auto) {
+          self.rightPaddle.stopMovingUp();
+          self.rightPaddle.stopMovingDown();
+        }
+      }, {passive: false});
+    }
+  },
+
   //=============================================================================
   // MENU
   //=============================================================================
@@ -182,13 +351,25 @@ Pong = {
   Menu: {
 
     initialize: function(pong) {
-      var press1 = pong.images["images/press1.png"];
-      var press2 = pong.images["images/press2.png"];
-      var winner = pong.images["images/winner.png"];
-      this.press1  = { image: press1, x: 10,                                                 y: pong.cfg.wallWidth     };
-      this.press2  = { image: press2, x: (pong.width - press2.width - 10),                   y: pong.cfg.wallWidth     };
-      this.winner1 = { image: winner, x: (pong.width/2) - winner.width - pong.cfg.wallWidth, y: 6 * pong.cfg.wallWidth };
-      this.winner2 = { image: winner, x: (pong.width/2)                + pong.cfg.wallWidth, y: 6 * pong.cfg.wallWidth };
+      this.pong = pong;
+      this.winner = null;
+      // Try to load images, fall back to text rendering
+      try {
+        var press1 = pong.images["images/press1.png"];
+        var press2 = pong.images["images/press2.png"];
+        var winner = pong.images["images/winner.png"];
+        if (press1 && press1.width > 0) {
+          this.press1  = { image: press1, x: 10, y: pong.cfg.wallWidth };
+          this.press2  = { image: press2, x: (pong.width - press2.width - 10), y: pong.cfg.wallWidth };
+          this.winner1 = { image: winner, x: (pong.width/2) - winner.width - pong.cfg.wallWidth, y: 6 * pong.cfg.wallWidth };
+          this.winner2 = { image: winner, x: (pong.width/2) + pong.cfg.wallWidth, y: 6 * pong.cfg.wallWidth };
+          this.hasImages = true;
+        } else {
+          this.hasImages = false;
+        }
+      } catch(e) {
+        this.hasImages = false;
+      }
     },
 
     declareWinner: function(playerNo) {
@@ -196,14 +377,49 @@ Pong = {
     },
 
     draw: function(ctx) {
-      ctx.drawImage(this.press1.image, this.press1.x, this.press1.y);
-      ctx.drawImage(this.press2.image, this.press2.x, this.press2.y);
-      if (this.winner == 0)
-        ctx.drawImage(this.winner1.image, this.winner1.x, this.winner1.y);
-      else if (this.winner == 1)
-        ctx.drawImage(this.winner2.image, this.winner2.x, this.winner2.y);
-    }
+      if (this.hasImages) {
+        if (this.press1 && this.press1.image) ctx.drawImage(this.press1.image, this.press1.x, this.press1.y);
+        if (this.press2 && this.press2.image) ctx.drawImage(this.press2.image, this.press2.x, this.press2.y);
+        if (this.winner == 0 && this.winner1)
+          ctx.drawImage(this.winner1.image, this.winner1.x, this.winner1.y);
+        else if (this.winner == 1 && this.winner2)
+          ctx.drawImage(this.winner2.image, this.winner2.x, this.winner2.y);
+      } else {
+        // Text-based menu fallback
+        var w = this.pong.width;
+        var h = this.pong.height;
 
+        ctx.fillStyle = '#00ff88';
+        ctx.font = "bold 28px 'Press Start 2P', monospace";
+        ctx.textAlign = 'center';
+        ctx.shadowColor = 'rgba(0,255,136,0.6)';
+        ctx.shadowBlur = 15;
+        ctx.fillText('PONG', w/2, h * 0.25);
+        ctx.shadowBlur = 0;
+
+        ctx.fillStyle = '#00d4ff';
+        ctx.font = "10px 'Press Start 2P', monospace";
+        ctx.fillText('Press 1 - Single Player', w/2, h * 0.45);
+        ctx.fillText('Press 2 - Two Players', w/2, h * 0.55);
+        ctx.fillText('Press 0 - Demo', w/2, h * 0.65);
+
+        if (this.winner !== null && this.winner !== undefined) {
+          ctx.fillStyle = '#ffe600';
+          ctx.font = "16px 'Press Start 2P', monospace";
+          ctx.shadowColor = 'rgba(255,230,0,0.6)';
+          ctx.shadowBlur = 10;
+          ctx.fillText('PLAYER ' + (this.winner + 1) + ' WINS!', w/2, h * 0.82);
+          ctx.shadowBlur = 0;
+        }
+
+        // Blinking text
+        if (Math.floor(Date.now() / 500) % 2 === 0) {
+          ctx.fillStyle = '#ff006e';
+          ctx.font = "8px 'Press Start 2P', monospace";
+          ctx.fillText('INSERT COIN TO PLAY', w/2, h * 0.92);
+        }
+      }
+    }
   },
 
   //=============================================================================
@@ -234,11 +450,10 @@ Pong = {
     pong: function() { this.play('pong'); },
     wall: function() { this.play('wall'); },
     goal: function() { this.play('goal');}
-
   },
 
   //=============================================================================
-  // COURT
+  // COURT - Neon styled
   //=============================================================================
 
   Court: {
@@ -253,9 +468,9 @@ Pong = {
       this.walls.push({x: 0, y: 0,      width: w, height: ww});
       this.walls.push({x: 0, y: h - ww, width: w, height: ww});
       var nMax = (h / (ww*2));
-      for(var n = 0 ; n < nMax ; n++) { // draw dashed halfway line
-        this.walls.push({x: (w / 2) - (ww / 2), 
-                         y: (ww / 2) + (ww * 2 * n), 
+      for(var n = 0 ; n < nMax ; n++) {
+        this.walls.push({x: (w / 2) - (ww / 2),
+                         y: (ww / 2) + (ww * 2 * n),
                          width: ww, height: ww});
       }
 
@@ -266,61 +481,69 @@ Pong = {
     },
 
     draw: function(ctx, scorePlayer1, scorePlayer2) {
+      // Walls with glow
       ctx.fillStyle = Pong.Colors.walls;
-      for(var n = 0 ; n < this.walls.length ; n++)
+      ctx.shadowColor = Pong.Colors.wallGlow;
+      ctx.shadowBlur = 8;
+      for(var n = 0 ; n < 2 ; n++) // Only top and bottom walls get glow
         ctx.fillRect(this.walls[n].x, this.walls[n].y, this.walls[n].width, this.walls[n].height);
+      ctx.shadowBlur = 0;
+
+      // Center line (dimmer)
+      ctx.fillStyle = Pong.Colors.centerLine;
+      for(var n = 2 ; n < this.walls.length ; n++)
+        ctx.fillRect(this.walls[n].x, this.walls[n].y, this.walls[n].width, this.walls[n].height);
+
+      // Scores with glow
+      ctx.shadowColor = 'rgba(0,212,255,0.4)';
+      ctx.shadowBlur = 10;
       this.drawDigit(ctx, scorePlayer1, this.score1.x, this.score1.y, this.score1.w, this.score1.h);
       this.drawDigit(ctx, scorePlayer2, this.score2.x, this.score2.y, this.score2.w, this.score2.h);
+      ctx.shadowBlur = 0;
     },
 
     drawDigit: function(ctx, n, x, y, w, h) {
       ctx.fillStyle = Pong.Colors.score;
       var dw = dh = this.ww*4/5;
       var blocks = Pong.Court.DIGITS[n];
-      if (blocks[0])
-        ctx.fillRect(x, y, w, dh);
-      if (blocks[1])
-        ctx.fillRect(x, y, dw, h/2);
-      if (blocks[2])
-        ctx.fillRect(x+w-dw, y, dw, h/2);
-      if (blocks[3])
-        ctx.fillRect(x, y + h/2 - dh/2, w, dh);
-      if (blocks[4])
-        ctx.fillRect(x, y + h/2, dw, h/2);
-      if (blocks[5])
-        ctx.fillRect(x+w-dw, y + h/2, dw, h/2);
-      if (blocks[6])
-        ctx.fillRect(x, y+h-dh, w, dh);
+      if (blocks[0]) ctx.fillRect(x, y, w, dh);
+      if (blocks[1]) ctx.fillRect(x, y, dw, h/2);
+      if (blocks[2]) ctx.fillRect(x+w-dw, y, dw, h/2);
+      if (blocks[3]) ctx.fillRect(x, y + h/2 - dh/2, w, dh);
+      if (blocks[4]) ctx.fillRect(x, y + h/2, dw, h/2);
+      if (blocks[5]) ctx.fillRect(x+w-dw, y + h/2, dw, h/2);
+      if (blocks[6]) ctx.fillRect(x, y+h-dh, w, dh);
     },
 
     DIGITS: [
-      [1, 1, 1, 0, 1, 1, 1], // 0
-      [0, 0, 1, 0, 0, 1, 0], // 1
-      [1, 0, 1, 1, 1, 0, 1], // 2
-      [1, 0, 1, 1, 0, 1, 1], // 3
-      [0, 1, 1, 1, 0, 1, 0], // 4
-      [1, 1, 0, 1, 0, 1, 1], // 5
-      [1, 1, 0, 1, 1, 1, 1], // 6
-      [1, 0, 1, 0, 0, 1, 0], // 7
-      [1, 1, 1, 1, 1, 1, 1], // 8
-      [1, 1, 1, 1, 0, 1, 0]  // 9
+      [1, 1, 1, 0, 1, 1, 1],
+      [0, 0, 1, 0, 0, 1, 0],
+      [1, 0, 1, 1, 1, 0, 1],
+      [1, 0, 1, 1, 0, 1, 1],
+      [0, 1, 1, 1, 0, 1, 0],
+      [1, 1, 0, 1, 0, 1, 1],
+      [1, 1, 0, 1, 1, 1, 1],
+      [1, 0, 1, 0, 0, 1, 0],
+      [1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 0, 1, 0]
     ]
-
   },
 
   //=============================================================================
-  // PADDLE
+  // PADDLE - Neon colored with glow
   //=============================================================================
 
   Paddle: {
 
     initialize: function(pong, rhs) {
       this.pong   = pong;
+      this.rhs    = rhs;
       this.width  = pong.cfg.paddleWidth;
       this.height = pong.cfg.paddleHeight;
       this.minY   = pong.cfg.wallWidth;
       this.maxY   = pong.height - pong.cfg.wallWidth - this.height;
       this.speed  = (this.maxY - this.minY) / pong.cfg.paddleSpeed;
+      this.color  = rhs ? Pong.Colors.paddle2 : Pong.Colors.paddle1;
       this.setpos(rhs ? pong.width - this.width : 0, this.minY + (this.maxY - this.minY)/2);
       this.setdir(0);
     },
@@ -397,7 +620,6 @@ Pong = {
     },
 
     predict: function(ball, dt) {
-      // only re-predict if the ball changed direction, or its been some amount of time since last prediction
       if (this.prediction &&
           ((this.prediction.dx * ball.dx) > 0) &&
           ((this.prediction.dy * ball.dy) > 0) &&
@@ -439,8 +661,17 @@ Pong = {
     },
 
     draw: function(ctx) {
-      ctx.fillStyle = Pong.Colors.walls;
+      // Paddle glow
+      ctx.shadowColor = this.color;
+      ctx.shadowBlur = 12;
+      ctx.fillStyle = this.color;
       ctx.fillRect(this.x, this.y, this.width, this.height);
+      ctx.shadowBlur = 0;
+
+      // Inner highlight
+      ctx.fillStyle = 'rgba(255,255,255,0.15)';
+      ctx.fillRect(this.x + 2, this.y + 2, this.width - 4, this.height - 4);
+
       if (this.prediction && this.pong.cfg.predictions) {
         ctx.strokeStyle = Pong.Colors.predictionExact;
         ctx.strokeRect(this.prediction.x - this.prediction.radius, this.prediction.exactY - this.prediction.radius, this.prediction.radius*2, this.prediction.radius*2);
@@ -457,7 +688,7 @@ Pong = {
   },
 
   //=============================================================================
-  // BALL
+  // BALL - Neon with glow
   //=============================================================================
 
   Ball: {
@@ -489,8 +720,8 @@ Pong = {
     },
 
     setdir: function(dx, dy) {
-      this.dxChanged = ((this.dx < 0) != (dx < 0)); // did horizontal direction change
-      this.dyChanged = ((this.dy < 0) != (dy < 0)); // did vertical direction change
+      this.dxChanged = ((this.dx < 0) != (dx < 0));
+      this.dyChanged = ((this.dy < 0) != (dy < 0));
       this.dx = dx;
       this.dy = dy;
     },
@@ -510,7 +741,6 @@ Pong = {
     },
 
     update: function(dt, leftPaddle, rightPaddle) {
-
       pos = Pong.Helper.accelerate(this.x, this.y, this.dx, this.dy, this.accel, dt);
 
       if ((pos.dy > 0) && (pos.y > this.maxY)) {
@@ -539,7 +769,6 @@ Pong = {
             break;
         }
 
-        // add/remove spin based on paddle direction
         if (paddle.up)
           pos.dy = pos.dy * (pos.dy < 0 ? 0.5 : 1.5);
         else if (paddle.down)
@@ -552,17 +781,36 @@ Pong = {
     },
 
     draw: function(ctx) {
-      var w = h = this.radius * 2;
+      var r = this.radius;
+
+      // Ball glow
+      ctx.shadowColor = Pong.Colors.ballGlow;
+      ctx.shadowBlur = 15;
+
+      // Ball body
       ctx.fillStyle = Pong.Colors.ball;
-      ctx.fillRect(this.x - this.radius, this.y - this.radius, w, h);
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, r, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.shadowBlur = 0;
+
+      // Inner highlight
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.beginPath();
+      ctx.arc(this.x - 1, this.y - 1, r * 0.5, 0, Math.PI * 2);
+      ctx.fill();
+
       if (this.pong.cfg.footprints) {
         var max = this.footprints.length;
         ctx.strokeStyle = Pong.Colors.footprint;
-        for(var n = 0 ; n < max ; n++)
-          ctx.strokeRect(this.footprints[n].x - this.radius, this.footprints[n].y - this.radius, w, h);
+        for(var n = 0 ; n < max ; n++) {
+          ctx.beginPath();
+          ctx.arc(this.footprints[n].x, this.footprints[n].y, r, 0, Math.PI * 2);
+          ctx.stroke();
+        }
       }
     }
-
   },
 
   //=============================================================================
@@ -598,35 +846,35 @@ Pong = {
     ballIntercept: function(ball, rect, nx, ny) {
       var pt;
       if (nx < 0) {
-        pt = Pong.Helper.intercept(ball.x, ball.y, ball.x + nx, ball.y + ny, 
-                                   rect.right  + ball.radius, 
-                                   rect.top    - ball.radius, 
-                                   rect.right  + ball.radius, 
-                                   rect.bottom + ball.radius, 
+        pt = Pong.Helper.intercept(ball.x, ball.y, ball.x + nx, ball.y + ny,
+                                   rect.right  + ball.radius,
+                                   rect.top    - ball.radius,
+                                   rect.right  + ball.radius,
+                                   rect.bottom + ball.radius,
                                    "right");
       }
       else if (nx > 0) {
-        pt = Pong.Helper.intercept(ball.x, ball.y, ball.x + nx, ball.y + ny, 
-                                   rect.left   - ball.radius, 
-                                   rect.top    - ball.radius, 
-                                   rect.left   - ball.radius, 
+        pt = Pong.Helper.intercept(ball.x, ball.y, ball.x + nx, ball.y + ny,
+                                   rect.left   - ball.radius,
+                                   rect.top    - ball.radius,
+                                   rect.left   - ball.radius,
                                    rect.bottom + ball.radius,
                                    "left");
       }
       if (!pt) {
         if (ny < 0) {
-          pt = Pong.Helper.intercept(ball.x, ball.y, ball.x + nx, ball.y + ny, 
-                                     rect.left   - ball.radius, 
-                                     rect.bottom + ball.radius, 
-                                     rect.right  + ball.radius, 
+          pt = Pong.Helper.intercept(ball.x, ball.y, ball.x + nx, ball.y + ny,
+                                     rect.left   - ball.radius,
+                                     rect.bottom + ball.radius,
+                                     rect.right  + ball.radius,
                                      rect.bottom + ball.radius,
                                      "bottom");
         }
         else if (ny > 0) {
-          pt = Pong.Helper.intercept(ball.x, ball.y, ball.x + nx, ball.y + ny, 
-                                     rect.left   - ball.radius, 
-                                     rect.top    - ball.radius, 
-                                     rect.right  + ball.radius, 
+          pt = Pong.Helper.intercept(ball.x, ball.y, ball.x + nx, ball.y + ny,
+                                     rect.left   - ball.radius,
+                                     rect.top    - ball.radius,
+                                     rect.right  + ball.radius,
                                      rect.top    - ball.radius,
                                      "top");
         }

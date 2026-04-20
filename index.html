@@ -1,213 +1,293 @@
-<!DOCTYPE HTML>
-<!--
-	Forty by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="description" content="Arcade Mini Game 2.0 - Jogue clássicos dos anos 90 com design moderno e estética arcade autêntica." />
+    <meta name="keywords" content="arcade, games, pong, snake, sinuca, retro, 90s, fliperama" />
+    <meta name="author" content="Lucas Motoso" />
+    <meta name="theme-color" content="#0a0a1a" />
 
-<head>
-	<title>Arcade Mini Game</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="assets/css/main.css" />
-	<link rel="icon" href="images/icon.png" sizes="80x80">
-	<noscript>
-		<link rel="stylesheet" href="assets/css/noscript.css" />
-	</noscript>
-</head>
+    <meta property="og:title" content="Arcade Mini Game 2.0" />
+    <meta property="og:description" content="Reviva o universo dos fliperamas dos anos 90" />
+    <meta property="og:type" content="website" />
 
-<body class="is-preload">
+    <title>Arcade Mini Game 2.0 - Fliperama dos Anos 90</title>
 
-	<!-- Wrapper -->
-	<div id="wrapper">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dist/main.css" />
+    <link rel="icon" href="images/icon.png" />
+  </head>
+  <body class="arcade-main">
+    <!-- CRT Overlay -->
+    <div class="crt-overlay" aria-hidden="true"></div>
 
-		<!-- Header -->
-		<header id="header" class="alt">
-			<a href="index.html"><img
-					src="https://fontmeme.com/permalink/210923/9b1fe7d99ec1da745dccc253d0b7df59.png"
-					alt="fonte-retro-gaming" width="264" height="18" ></a>
-			<nav>
-				<a href="#menu">Menu</a>
-			</nav>
-		</header>
+    <!-- Floating Pixels Background -->
+    <div class="pixels-bg" aria-hidden="true">
+      <div class="pixel" style="--delay: 0s; --x: 10%; --duration: 12s;"></div>
+      <div class="pixel" style="--delay: 1.5s; --x: 25%; --duration: 15s;"></div>
+      <div class="pixel" style="--delay: 3s; --x: 45%; --duration: 10s;"></div>
+      <div class="pixel" style="--delay: 0.8s; --x: 60%; --duration: 14s;"></div>
+      <div class="pixel" style="--delay: 2.2s; --x: 75%; --duration: 11s;"></div>
+      <div class="pixel" style="--delay: 4s; --x: 90%; --duration: 13s;"></div>
+      <div class="pixel" style="--delay: 1s; --x: 35%; --duration: 16s;"></div>
+      <div class="pixel" style="--delay: 3.5s; --x: 55%; --duration: 9s;"></div>
+      <div class="pixel" style="--delay: 2s; --x: 80%; --duration: 12s;"></div>
+      <div class="pixel" style="--delay: 0.5s; --x: 15%; --duration: 14s;"></div>
+    </div>
 
-		<!-- Menu -->
-		<nav id="menu">
-			<ul class="links">
-				<li><a href="index.html">Início</a></li>
-				<li><a href="https://www.linkedin.com/in/lucas-motoso-248586119/">LinkedIn</a></li>
-				<li><a href="https://github.com/lucasmotoso">GitHub</a></li>
-				<li><a href="https://api.whatsapp.com/send?phone=5511997154656&text=Ol%C3%A1%20Lucas%2C%20vi%20seu%20c%C3%B3digo%20no%20Github">Contato</a></li>
-			</ul>
-		</nav>
+    <div id="app-root">
+      <!-- Header -->
+      <header id="header" class="header" role="banner">
+        <div class="header-inner">
+          <div class="logo">
+            <h1>
+              <span class="logo-icon">▶</span>
+              ARCADE
+              <span class="logo-blink">_</span>
+            </h1>
+            <p>Mini Games // Est. 2025</p>
+          </div>
+          <nav class="header-nav">
+            <button id="menu-toggle" class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu" onclick="document.getElementById('nav-menu').classList.toggle('active'); this.classList.toggle('active');">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <ul id="nav-menu" class="nav-menu" role="navigation">
+              <li><a href="#games">🕹️ Jogos</a></li>
+              <li><a href="#about">📋 Sobre</a></li>
+              <li><a href="#contact">📡 Contato</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
 
-		<!-- Banner -->
-		<section id="banner" class="major">
-			<div class="inner">
-				<header class="major">
-					<h1>Bem vindo, aos anos 80's!</h1>
-				</header>
-				<div class="content">
-					<p>Relembre os bons tempos de Fliperama,<br />
-						jogue novamente clássicos de sua infância.</p>
-					<ul class="actions">
-						<li><a href="#one" class="button next scrolly">Vamos lá!</a></li>
-					</ul>
-				</div>
-			</div>
-		</section>
+      <!-- Hero Banner -->
+      <section class="hero" id="hero">
+        <div class="hero-content">
+          <div class="hero-marquee">
+            <span class="marquee-light"></span>
+            <span class="marquee-light"></span>
+            <span class="marquee-light"></span>
+            <span class="marquee-light"></span>
+            <span class="marquee-light"></span>
+            <span class="marquee-light"></span>
+            <span class="marquee-light"></span>
+            <span class="marquee-light"></span>
+          </div>
+          <div class="hero-title-wrapper">
+            <p class="hero-subtitle">⚡ WELCOME TO THE ⚡</p>
+            <h2 class="hero-title glitch" data-text="ARCADE ZONE">ARCADE ZONE</h2>
+            <p class="hero-desc">Reviva o universo dos fliperamas dos anos 90</p>
+          </div>
+          <div class="insert-coin">
+            <span class="coin-text">▼ INSERT COIN ▼</span>
+          </div>
+          <button class="btn btn-primary btn-arcade" onclick="document.getElementById('games').scrollIntoView({behavior: 'smooth'})">
+            <span class="btn-text">START GAME</span>
+            <span class="btn-glow"></span>
+          </button>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-label">GAMES</span>
+              <span class="stat-value">03</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">PLAYERS</span>
+              <span class="stat-value">1-2</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">CREDITS</span>
+              <span class="stat-value">99</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
-		<!-- Main -->
-		<div id="main">
+      <!-- Games Grid -->
+      <section id="games" class="games-section">
+        <div class="section-header">
+          <div class="section-line"></div>
+          <h2>SELECT GAME</h2>
+          <div class="section-line"></div>
+        </div>
 
-			<!-- One -->
-			<section id="one" class="tiles">
-				<article>
-					<span class="image">
-						<img src="images/pong.JPG" alt="" />
-					</span>
-					<header class="major">
-						<h3><a href="Pong/index.html" class="link">Pong!</a></h3>
-						<p>Reviva o clássico jogo de Ping Pong, agora reestilizado.</p>
-					</header>
-				</article>
-				<article>
-					<span class="image">
-						<img src="images/pic02.jpg" alt="" />
-					</span>
-					<header class="major">
-						<h3><a href="Sinuca/sinuca.html" class="link">Sinuca 8 Ball</a></h3>
-						<p>Quem não se lembra de ir ver o pai ou os tios jogar sinuca no boteco? Reviva aqui.</p>
-					</header>
-				</article>
+        <div class="games-grid">
 
-				
-				
-				<article>
-					<span class="image">
-						<img src="images/snake2.jpg" alt="" />
-					</span>
-					<header class="major">
-						<h3><a href="/Snake/index.html" class="link">Snake The Game</a></h3>
-						<p>Clássico dos celulares da &copy;NOKIA. Esse jogo com certeza estava guardado em algum lugar da sua mente. Reviva esse desafio.</p>
-					</header>
-					<!--	ADICIONAR MAIS JOGOS
-				</article>
-				<article>
-					<span class="image">
-						<img src="images/pic04.jpg" alt="" />
-					</span>
-					<header class="major">
-						<h3><a href="landing.html" class="link">Ipsum</a></h3>
-						<p>Nisl sed aliquam</p>
-					</header>
-				</article>
-				<article>
-					<span class="image">
-						<img src="images/pic05.jpg" alt="" />
-					</span>
-					<header class="major">
-						<h3><a href="landing.html" class="link">Consequat</a></h3>
-						<p>Ipsum dolor sit amet</p>
-					</header>
-				</article>
-				<article>
-					<span class="image">
-						<img src="images/pic06.jpg" alt="" />
-					</span>
-					<header class="major">
-						<h3><a href="landing.html" class="link">Etiam</a></h3>
-						<p>Feugiat amet tempus</p>
-					</header>
+          <!-- PONG -->
+          <article class="game-card" id="game-pong">
+            <div class="card-marquee">
+              <span class="led"></span><span class="led"></span><span class="led"></span>
+              <span class="led"></span><span class="led"></span><span class="led"></span>
+              <span class="led"></span><span class="led"></span><span class="led"></span>
+            </div>
+            <div class="game-card-image">
+              <img src="images/pong.JPG" alt="Pong - clássico jogo de ping pong" loading="lazy" />
+              <div class="card-overlay">
+                <span class="play-icon">▶</span>
+              </div>
+            </div>
+            <div class="game-card-content">
+              <div class="game-badge">CLASSIC</div>
+              <h3>PONG</h3>
+              <p>O lendário duelo de paddles — agora com IA adaptativa e visual neon</p>
+              <div class="game-meta">
+                <span>👤 1-2 Players</span>
+                <span>⌨️ Teclado / Touch</span>
+              </div>
+              <a href="Pong/index.html" class="btn btn-game" aria-label="Jogar Pong">
+                PRESS START
+              </a>
+            </div>
+          </article>
 
---->	
-				</article>
-			</section>
+          <!-- SNAKE -->
+          <article class="game-card" id="game-snake">
+            <div class="card-marquee">
+              <span class="led"></span><span class="led"></span><span class="led"></span>
+              <span class="led"></span><span class="led"></span><span class="led"></span>
+              <span class="led"></span><span class="led"></span><span class="led"></span>
+            </div>
+            <div class="game-card-image">
+              <img src="images/Snake.jpg" alt="Snake - jogo da cobra" loading="lazy" />
+              <div class="card-overlay">
+                <span class="play-icon">▶</span>
+              </div>
+            </div>
+            <div class="game-card-content">
+              <div class="game-badge badge-green">RETRO</div>
+              <h3>SNAKE</h3>
+              <p>A cobra lendária da Nokia — com controles touch e swipe</p>
+              <div class="game-meta">
+                <span>👤 1 Player</span>
+                <span>📱 Touch / Setas</span>
+              </div>
+              <a href="Snake/index.html" class="btn btn-game" aria-label="Jogar Snake">
+                PRESS START
+              </a>
+            </div>
+          </article>
 
-			<!-- Two -->
-			<section id="two">
-				<div class="inner">
-					<header class="major">
-						<h2>Quem sou</h2>
-					</header>
-					<p>Me chamo Lucas Motoso, apesar de ter nascido em 1994, sou um grande fã dos anos 80/90. O objetivo
-						desse site é justamente reviver a nostalgia de gastar o troco do pão nos fliperamas. Se esse
-						site pudesse exalar cheiro, você estaria sentindo aquele cheirinho de doceria dos anos 80/90.
-						As cores e estilo vapor e neon foi pensado justamente para que sua visita seja totalmente envolvente
-						Com o clima daquela época.
-						Então, se ajeita na cadeira, coloque o CD do Balão Mágico e curta o &copy;Arcade Mini game.</p>
-					<ul class="actions">
-						<li><a href="https://lucasmotoso.netlify.app/" class="button next">Veja outros projetos</a></li>
-					</ul>
-				</div>
-			</section>
+          <!-- SINUCA -->
+          <article class="game-card" id="game-sinuca">
+            <div class="card-marquee">
+              <span class="led"></span><span class="led"></span><span class="led"></span>
+              <span class="led"></span><span class="led"></span><span class="led"></span>
+              <span class="led"></span><span class="led"></span><span class="led"></span>
+            </div>
+            <div class="game-card-image">
+              <img src="images/sinuca.JPG" alt="Sinuca 8 Ball" loading="lazy" />
+              <div class="card-overlay">
+                <span class="play-icon">▶</span>
+              </div>
+            </div>
+            <div class="game-card-content">
+              <div class="game-badge badge-purple">SPORT</div>
+              <h3>SINUCA 8 BALL</h3>
+              <p>Mesa de sinuca com física realista — mire, ajuste a força e encaçape!</p>
+              <div class="game-meta">
+                <span>👤 1 Player</span>
+                <span>🖱️ Mouse / Touch</span>
+              </div>
+              <a href="Sinuca/index.html" class="btn btn-game" aria-label="Jogar Sinuca">
+                PRESS START
+              </a>
+            </div>
+          </article>
 
-		</div>
+        </div>
+      </section>
 
-		<!-- Contact -->
-		<br>
-		<br>
-		<section class="split">
-			<section>
-				<div class="contact-method">
-					<span class="icon solid alt fa-envelope"></span>
-					<h3>Email</h3>
-					<a href="mailto:lucasmotoso@gmail.com">lucasmotoso@gmail.com</a>
-				</div>
-			</section>
-			<section>
-				<div class="contact-method">
-					<span class="icon solid alt fa-phone"></span>
-					<h3>Whatsapp</h3>
-					<span> <a
-							href="https://api.whatsapp.com/send?phone=5511997154656&text=Ol%C3%A1%20Lucas%2C%20vi%20seu%20c%C3%B3digo%20no%20Github">+
-							55 (11)99715-4656</a></span>
-				</div>
-			</section>
-			<section>
-				<div class="contact-method">
-					<span class="icon solid alt fa-home"></span>
-					<h3>Contribua</h3>
-					<span>Banco Itaú<br />
-						Chave pix: 11997154656<br />
-						Agência: 0367 Conta Corrente: 27289-5</span>
-				</div>
-			</section>
-		</section>
-	</div>
-	</section>
+      <!-- About Section -->
+      <section id="about" class="about-section">
+        <div class="about-content">
+          <div class="section-header">
+            <div class="section-line line-pink"></div>
+            <h2>ABOUT THIS MACHINE</h2>
+            <div class="section-line line-pink"></div>
+          </div>
+          <p class="about-text">
+            Arcade Mini Game foi reimaginado em 2025 com tecnologias modernas
+            mantendo a essência nostálgica dos clássicos arcade dos anos 90.
+            100% responsivo, funciona em qualquer dispositivo.
+          </p>
+          <div class="features">
+            <div class="feature">
+              <div class="feature-icon">📱</div>
+              <h4>RESPONSIVO</h4>
+              <p>Desktop, tablet e mobile</p>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">⚡</div>
+              <h4>60 FPS</h4>
+              <p>Performance otimizada</p>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">🎮</div>
+              <h4>TOUCH</h4>
+              <p>Controles nativos mobile</p>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">🔊</div>
+              <h4>SFX</h4>
+              <p>Efeitos sonoros 8-bit</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-	<!-- Footer -->
-	<footer id="footer">
-		<div class="inner">
-			<ul class="icons">
-				<li><a href="https://www.facebook.com/lucasmathozzo/" class="icon brands alt fa-facebook-f"><span
-							class="label">Facebook</span></a></li>
-				<li><a href="https://www.instagram.com/lucas_mathozzo/" class="icon brands alt fa-instagram"><span
-							class="label">Instagram</span></a></li>
-				<li><a href="https://github.com/lucasmotoso" class="icon brands alt fa-github"><span
-							class="label">GitHub</span></a></li>
-				<li><a href="https://www.linkedin.com/in/lucas-motoso-248586119/"
-						class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
-			</ul>
-			<ul class="copyright">
-				<li> Desenvolvido por &copy; Lucas Motoso.</li>
-			</ul>
-		</div>
-	</footer>
+      <!-- Contact Section -->
+      <section id="contact" class="contact-section">
+        <div class="section-header">
+          <div class="section-line line-cyan"></div>
+          <h2>HIGH SCORE BOARD</h2>
+          <div class="section-line line-cyan"></div>
+        </div>
+        <div class="contact-grid">
+          <a href="mailto:lucasmotoso@gmail.com" class="contact-card">
+            <span class="contact-icon">✉️</span>
+            <h3>EMAIL</h3>
+            <p>lucasmotoso@gmail.com</p>
+          </a>
+          <a href="https://linkedin.com/in/lucas-motoso-248586119/" class="contact-card" target="_blank" rel="noopener">
+            <span class="contact-icon">💼</span>
+            <h3>LINKEDIN</h3>
+            <p>lucas-motoso</p>
+          </a>
+          <a href="https://github.com/lucasmotoso" class="contact-card" target="_blank" rel="noopener">
+            <span class="contact-icon">💻</span>
+            <h3>GITHUB</h3>
+            <p>lucasmotoso</p>
+          </a>
+        </div>
+      </section>
 
-	</div>
+      <!-- Footer -->
+      <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+          <p class="footer-gameover">GAME OVER</p>
+          <p class="footer-credits">&copy; 2025 Lucas Motoso — All rights reserved</p>
+          <p class="footer-continue">CONTINUE? <span class="countdown">9</span></p>
+        </div>
+      </footer>
+    </div>
 
-	<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/jquery.scrolly.min.js"></script>
-	<script src="assets/js/jquery.scrollex.min.js"></script>
-	<script src="assets/js/browser.min.js"></script>
-	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
-
-</body>
-
+    <!-- Inline script for theme and countdown -->
+    <script>
+      // Footer countdown animation
+      const countdownEl = document.querySelector('.countdown');
+      if (countdownEl) {
+        let count = 9;
+        setInterval(() => {
+          count = count <= 0 ? 9 : count - 1;
+          countdownEl.textContent = count;
+        }, 1000);
+      }
+    </script>
+    <script src="dist/main.js" type="module"></script>
+  </body>
 </html>
